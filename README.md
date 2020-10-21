@@ -4,7 +4,7 @@ All that is written here can be changed, redacted, removed, and so on, this is j
 
 ### Understanding the instrument
 
-What exactly are we measuring, and what are we missing compared to classical methods. Probably we can find almost all informations in (the paper)[https://www.researchgate.net/publication/343143113_Dreem_Open_Datasets_Multi-Scored_Sleep_Datasets_to_Compare_Human_and_Automated_Sleep_Staging] about the dataset
+What exactly are we measuring, and what are we missing compared to classical methods. Probably we can find almost all informations in [the paper](https://www.researchgate.net/publication/343143113_Dreem_Open_Datasets_Multi-Scored_Sleep_Datasets_to_Compare_Human_and_Automated_Sleep_Staging) about the dataset
 
 p.s. I think that the absence of EOG should be taken into account, and I didn't get where the reference electrode is placed.
 
