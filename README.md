@@ -14,7 +14,7 @@ What features distinguish each phase of sleep, and what features are in common, 
 
 ### Looking for methods
 
-A very useful thing to do for Kaggle challenges is to look at previous solutions. If there are recent challenges or studyies about sleep classification, we should definetely look into that and make a list of the methods used.
+A very useful thing to do for Kaggle challenges is to look at previous solutions. If there are recent challenges or studies about sleep classification, we should definitely look into that and make a list of the methods used.
 
 ### Exploratory Data Analysis
 
@@ -32,7 +32,7 @@ Usually data in kaggle competitions is clean, but we could want to filter our el
 
 ### Model selection
 
-Now we'll try many models, and decide which to keep for further improvement. We will apply cross-validation and see which ones performs better.
+Now we'll try many models, and decide which to keep for further improvement. We will apply cross-validation and see which ones perform better.
 
 ### Parameters exploration
 
