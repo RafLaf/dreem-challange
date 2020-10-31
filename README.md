@@ -2,11 +2,17 @@
 
 All that is written here can be changed, redacted, removed, and so on, this is just a basis to have something to discuss.
 
+### Useful resources
+[Paper about advanced techniques to predict sleep phase](https://www.researchgate.net/publication/343143113_Dreem_Open_Datasets_Multi-Scored_Sleep_Datasets_to_Compare_Human_and_Automated_Sleep_Staging)
+
+[Dreem website with all the articles releated](https://dreem.com/research)
+
+[Paper on the Dreem Headband](https://www.biorxiv.org/content/10.1101/662734v1.full)
+
+
 ### Understanding the instrument
 
-What exactly are we measuring, and what are we missing compared to classical methods. Probably we can find almost all informations in [the paper](https://www.researchgate.net/publication/343143113_Dreem_Open_Datasets_Multi-Scored_Sleep_Datasets_to_Compare_Human_and_Automated_Sleep_Staging) about the dataset
-
-p.s. I think that the absence of EOG should be taken into account, and I didn't get where the reference electrode is placed.
+What exactly are we measuring, and what are we missing compared to classical methods. Probably we can find almost all informations in p.s. I think that the absence of EOG should be taken into account, and I didn't get where the reference electrode is placed.
 
 ### Understanding sleep
 
