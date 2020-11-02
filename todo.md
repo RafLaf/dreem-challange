@@ -12,4 +12,8 @@
 - [ ] Divide frequencies
 - [ ] Extract some features
 
+# Meeting 1
+
+- [ ] Exclude components with weird stuff
+- [ ]
 
