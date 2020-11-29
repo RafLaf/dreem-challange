@@ -1,13 +1,5 @@
 # Dreem
 
-Setup the environment from the command line:
-
-	cd into the directory
-	activate virtualenv
-	pip install -e .
-
-This will enable you to import from anywhere modules defined in src/
-
 ### Folder structure
 
 We should all keep the same folder structure, and everybody works on different files on his branch.
