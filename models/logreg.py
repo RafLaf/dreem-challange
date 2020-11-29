@@ -1,6 +1,4 @@
 import gc
-import sys
-sys.path.append('/home/ginko/dreem')
 
 import mne
 import numpy as np
