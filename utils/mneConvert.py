@@ -22,7 +22,7 @@ def sync_matrix(matrix):
         new_matrix[i, :] = sync_interpolate(matrix[i, :])
     return new_matrix
 
-def create_mne_raw_object(save=False):
+def create_mne_raw_object(save=False, proj=True):
     eeg1, eeg2, eeg3, eeg4, eeg5, eeg6, eeg7, pulse, x, y, z = load_data("../data/raw/X_train.h5")
     data = np.zeros([12, np.concatenate(eeg1).shape[0]])
 
@@ -82,7 +82,32 @@ def create_mne_raw_object(save=False):
     new_events[:, 2] = Y
     raw.add_events(new_events, stim_channel ='sleep_state')
 
+
+    if proj == True:
+        projs = mne.compute_proj_raw(raw, n_grad=0, n_mag=0, n_eeg=2, n_jobs=4)
+        raw.add_proj(projs)
     if save == True:
-        raw.save("../data/raw/X_train_raw.fif")
+        raw.save("../data/mne/X_train_raw.fif")
 
     return raw
+
+def create_mne_epochs_object(save=False, eeg=True, ecg=False, misc=False, proj=False, rej=0.5):
+    raw = mne.io.read_raw("../data/mne/X_train_raw.fif", preload=True)
+    raw.filter(.5, 25, fir_design='firwin')
+
+    events = mne.find_events(raw, stim_channel='sleep_state', initial_event=True)
+    event_id = dict(awake=1, state_1=2, state_2=3, SWS=4, REM=5)
+
+# TODO Try picking ecg and ecg too
+    picks = mne.pick_types(raw.info, meg=False, eeg=eeg, ecg=ecg, misc=misc, stim=False, exclude='bads')
+
+# TODO Reject the right values
+    reject = dict(eeg=rej)
+
+    epochs = mne.Epochs(raw, events, event_id, 0., 6., proj=proj, picks=picks, baseline=None, reject=reject)
+    del raw
+    gc.collect()
+
+    if save == True:
+        epochs.save("../data/mne/X_train_epo.fif")
+    return epochs
