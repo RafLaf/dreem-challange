@@ -1,5 +1,5 @@
-pics/
-data/
+*.h5
+*.csv
+*.fif
 __pycache__/
 .ipynb_checkpoints/
-*.ipynb
