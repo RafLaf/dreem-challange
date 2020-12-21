@@ -13,6 +13,13 @@ from sklearn.preprocessing import StandardScaler
 filename="/home/raphael/Documents/dreem-challange-main/data/interim/"
 
 
+
+def auto():
+    Xtrain,Xtest=read('train') ,read('test')
+    Xtrain,Xtest=scale(Xtrain,Xtest)
+    pred = SVM(Xtrain,Xtest)
+    return pred
+
 def read(mode='train',RC=False):
     pulse=np.load(filename+'lpulse'+str(mode)+'.npy',allow_pickle=True)
     entropy=np.load(filename+'entropy'+str(mode)+'.npy',allow_pickle=True)
@@ -21,15 +28,18 @@ def read(mode='train',RC=False):
     minmaxvarray=np.load(filename+'minmaxvarray'+str(mode)+'.npy',allow_pickle=True)
     MMD=np.load(filename+'MMD'+str(mode)+'.npy',allow_pickle=True)
     fmax=np.load(filename+'fmax'+str(mode)+'.npy',allow_pickle=True)
+    fmax=np.reshape(fmax,(fmax.shape[0],fmax[0].size))
+    PFD=np.load(filename+'PFD'+str(mode)+'.npy',allow_pickle=True)
     if RC==True:
-        if mode==True:
-            RRtrain=np.load(filename+'RRtrain.npy',allow_pickle=True)
-            return np.concatenate((pulse,entropy,freq,entreegs,minmaxvarray,MMD,RRtrain),axis=1)
+        if mode=='train':
+            RRtrain=np.load(filename+'bestfeatRtrain.npy',allow_pickle=True)
+            print(pulse.shape,fmax.shape,entropy.shape,RRtrain.shape)
+            return np.concatenate((pulse,entropy,freq,entreegs,minmaxvarray,MMD,fmax,PFD,RRtrain),axis=1)
         else:
-            RRtest=np.load(filename+'RRtest.npy',allow_pickle=True)
-            return np.concatenate((pulse,entropy,freq,entreegs,minmaxvarray,MMD,RRtest),axis=1)
-    return np.concatenate((pulse,entropy,freq,entreegs,minmaxvarray,MMD),axis=1)
-
+            RRtest=np.load(filename+'bestfeatRest.npy',allow_pickle=True)
+            print(pulse.shape,fmax.shape,entropy.shape,RRtest.shape)
+            return np.concatenate((pulse,entropy,freq,entreegs,minmaxvarray,MMD,PFD,fmax,RRtest),axis=1)
+    return np.concatenate((pulse,entropy,freq,entreegs,minmaxvarray,MMD,fmax,PFD),axis=1)
 
 
 def scale(Xtrain,Xtest):
@@ -40,11 +50,13 @@ def scale(Xtrain,Xtest):
     return Xtrain,Xtest
 
 
-def SVM(Xtrain,Xtest,C=20):
+def SVM(Xtrain,Xtest,C=20,save=True):
     SVM=SVC(C=C)
     y=readlabel()
     SVM.fit(Xtrain,y)
     pred=SVM.predict(Xtest)
+    if save==True:
+         pd.DataFrame(pred).to_csv("/media/raphael/Data/Dataaccess/ML_DREEM/predtest.csv")
     return pred
 
 
@@ -55,3 +67,5 @@ def readlabel():
         print('occurence sleep stage',i,np.count_nonzero(ytrain[:,1]== i))
     y=ytrain[:,1]
     return y
+
+

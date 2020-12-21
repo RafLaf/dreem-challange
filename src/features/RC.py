@@ -8,7 +8,7 @@ from sklearn.decomposition import PCA
 #          eggstest,mode=read(mode='test')
 #          eggstrain=scale(eggstrain)
 #          eggstest=scale(eggstest)
-#          Rtrain,Rtest=extract(save=False)
+#          
 #          PCARC(Rtrain,Rtest)
 #then extract the different features
 
@@ -17,7 +17,6 @@ pathtosave="/home/raphael/Documents/dreem-challange-main/data/interim/"
 
 def read(mode='train'):
     #mode = 'test'
-
     filename = "/media/raphael/Data/Dataaccess/ML_DREEM/X_"+str(mode)+"/X_"+str(mode)+".h5"
     #filename = "data/raw/X_"+str(mode)+"/X_"+str(mode)+".h5"
     eggs = []
@@ -29,17 +28,22 @@ def read(mode='train'):
 
 def scale(eggs):
     for i in range (7):
-        eggs[i]-=np.reshape(eggs[0].mean(axis=1),(eggs[0].shape[0],1))
-        eggs[i]=np.divide(eggs[i],eggs[i].std(axis=1).reshape((eggs[0].shape[0],1)))
-        print(eggs[i].mean(axis=1).shape)
+        eggs[i]-=np.reshape(eggs[i].mean(axis=1),(eggs[i].shape[0],1))
+        eggs[i]=np.divide(eggs[i],eggs[i].std(axis=1).reshape((eggs[i].shape[0],1)))
     eggs= np.moveaxis(eggs,[1],[0])
     return eggs
 
     
-def extract(save=True,Nr=5000,start=0,end=-1,step=10,rho=0.99,D=15,nbchan=7,aleak=0.07,gamma=1,biasscale=0.5,snap=4):
+def extract(save=True,Nr=2000,start=0,end=None,step=10,rho=0.99,D=15,nbchan=7,aleak=0.07,gamma=1,biasscale=0.5,snap=4):
     Res=Reservoir(Nr,D,rho,nbchan)
+    eggstrain,mode=read(mode='train')
+    eggstrain=scale(eggstrain)
     Rtrain=Res.main(aleak,gamma,biasscale,snap,eggstrain[start:end,:,slice(0,-1,step)])
+    del eggstrain
+    eggstest,mode=read(mode='test')
+    eggstest=scale(eggstest)
     Rtest=Res.main(aleak,gamma,biasscale,snap,eggstest[start:end,:,slice(0,-1,step)])
+    del eggstest
     Rtrain=np.reshape(Rtrain,(Rtrain.shape[0],Rtrain.shape[1]*Rtrain.shape[2]))
     Rtest=np.reshape(Rtest,(Rtest.shape[0],Rtest.shape[1]*Rtest.shape[2]))
     if save==True:
@@ -58,6 +62,9 @@ def PCARC(nbcomp=5,save=True):
         np.save(pathtosave+'RRtrain.npy',RRtrain[:,:nbcomp])
         np.save(pathtosave+'RRtest.npy',RRtest[:,:nbcomp])
     return RRtrain[:,:nbcomp],RRtest[:,:nbcomp]
+
+
+
 
 class Reservoir:
     def __init__(self,Nr,D,rho,nbchan):

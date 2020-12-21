@@ -29,14 +29,15 @@ def extractall(save=True):
     c=extractvar(save=save)[0]
     d=extractMMD(save=save)[0]
     e=extractfreqmax(save=save)[0]
-    return a,b,c,d,e,mode
+    f=extractPFD(save=save)[0]
+    return a,b,c,d,e,f,mode
 
 def extractfbandsfull(save=True,cuts=1):
     L=list()
     for i in range(7):
         L.append(extractfbands(eggs[i],cuts))
     L=np.array(L)
-    s=L.shape
+    s=L.shapeex
     L=L.reshape((s[0],s[1],s[2],s[3]))
     L=np.moveaxis(L,[3],[0])
     s=L.shape
@@ -84,7 +85,34 @@ def extractfreqmax(save=True,cuts=1):
     return fmax,mode
 
 
+
+def extractPFD(save=True):
+    '''Petrosian Fractal Dimension
+    '''
+    listPFD=[]
+    for i in range (7):
+        dif=eggs[i,:,1:]-eggs[i,:,:-1]
+        PFD=computePFD(dif)
+        listPFD.append(PFD)
+    listPFD=np.array(listPFD)
+    listPFD=listPFD.T
+    print(listPFD.shape)
+    if save==True:
+        np.save(pathtosave+'PFD'+str(mode)+'.npy',listPFD)
+    return listPFD,mode
+
 #--------------------------------------------------------------------------------------------#
+
+
+def computePFD(dif):
+    chsidif=dif[:,1:]*dif[:,:-1]
+    truefalse=chsidif<0
+    ndel=np.sum(truefalse*1,axis=1)
+    n=dif.shape[1]
+    lo=np.log10(n)
+    londel=np.log10(n/(n+0.4*ndel))
+    print(dif.shape,truefalse.shape,ndel,n,lo.shape,londel.shape)
+    return lo/(lo+londel)
 
 
 
