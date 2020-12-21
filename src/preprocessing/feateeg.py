@@ -4,19 +4,19 @@ import matplotlib.pyplot as plt
 import scipy.stats as scs
 
 
-pathtosave="../data/interim/"
+pathtosave="../../data/interim/"
 
 def read(mode='train'):
     #mode = 'test'
 
     # filename = "/media/raphael/Data/Dataaccess/ML_DREEM/X_"+str(mode)+"/X_"+str(mode)+".h5"
-    filename = "data/raw/X_"+str(mode)+"/X_"+str(mode)+".h5"
-    eggs = []
+    filename = "../../data/raw/X_"+str(mode)+".h5"
+    eegs = []
     for i in range(1, 8):
         np_array = np.array(h5py.File(filename, mode='r')['eeg_'+str(i)])
-        eggs.append(np_array)
-    eggs=np.array(eggs)
-    return eggs,mode
+        eegs.append(np_array)
+    eegs=np.array(eegs)
+    return eegs,mode
 
 
 def extractall(save=True):
@@ -30,7 +30,7 @@ def extractall(save=True):
 def extractfbandsfull(save=True,cuts=1):
     L=list()
     for i in range(7):
-        L.append(extractfbands(eggs[i],cuts))
+        L.append(extractfbands(eegs[i],cuts))
     L=np.array(L)
     s=L.shape
     L=L.reshape((s[0],s[1],s[2],s[3]))
@@ -44,7 +44,7 @@ def extractfbandsfull(save=True,cuts=1):
 
 
 def extractentropeeg(save=True,bins=1000):
-    entreegs=np.array([entropyarray(eggs[i],bins) for i in range(7)])
+    entreegs=np.array([entropyarray(eegs[i],bins) for i in range(7)])
     if save==True:
         np.save(pathtosave+'entreeg'+str(mode)+'.npy',entreegs.T)
     return entreegs.T,mode
@@ -52,9 +52,9 @@ def extractentropeeg(save=True,bins=1000):
 
 
 def extractvar(save=True):
-    varray=np.array([np.log(np.var(eggs[i],axis=1)) for i in range(7)])
+    varray=np.array([np.log(np.var(eegs[i],axis=1)) for i in range(7)])
     varray=varray
-    minmax=np.array([(np.max(eggs[i],axis=1)-np.min(eggs[i],axis=1)) for i in range(7)])
+    minmax=np.array([(np.max(eegs[i],axis=1)-np.min(eegs[i],axis=1)) for i in range(7)])
     minmaxvarray=np.array([minmax.T,varray.T])    
     minmaxvarray= np.moveaxis(minmaxvarray,[1],[0])
     s=minmaxvarray.shape
@@ -66,7 +66,7 @@ def extractvar(save=True):
 
 
 def extractMMD(save=True):
-    MMD=np.array([np.log(partitionsum(eggs[i],3)) for i in range(7)])
+    MMD=np.array([np.log(partitionsum(eegs[i],3)) for i in range(7)])
     if save==True:
         np.save(pathtosave+'MMD'+str(mode)+'.npy',MMD.T)
     return MMD.T,mode
@@ -74,7 +74,7 @@ def extractMMD(save=True):
 
 
 def extractfreqmax(save=True,cuts=1):
-    fmax=np.array([extractfmax(eggs[i],cuts) for i in range(7)]).T
+    fmax=np.array([extractfmax(eegs[i],cuts) for i in range(7)]).T
     if save==True:
         np.save(pathtosave+'fmax'+str(mode)+'.npy',fmax)
     return fmax,mode
@@ -153,13 +153,10 @@ def extractfmax(eeg,cuts):
 
 
 if __name__ == "__main__":
-#first run eggs,mode=read(mode='train' or 'test')
+#first run eegs,mode=read(mode='train' or 'test')
 #then extract the different features
 
     eegs, mode = read("train")
-    extractall(save=true)
-    extractfbandsfull(save=True,cuts=1)
-    extractentropeeg(save=True,bins=1000)
-    extractvar(save=True)
-    extractMMD(save=True)
-    extractfreqmax(save=True,cuts=1)
+    extractall(save=True)
+    eegs, mode = read("test")
+    extractall(save=True)

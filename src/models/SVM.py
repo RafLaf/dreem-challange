@@ -6,7 +6,7 @@ from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 
-filename="../data/interim/"
+filename="../../data/interim/"
 
 
 def read(mode='train',RC=False):
@@ -45,7 +45,7 @@ def SVM(Xtrain,Xtest,C=20):
 
 
 def readlabel():
-    filename = "/media/raphael/Data/Dataaccess/ML_DREEM/y_train.csv"
+    filename = "../../data/raw/y_train.csv"
     ytrain=np.array(pd.read_csv(filename))
     for i in range(5):
         print('occurence sleep stage',i,np.count_nonzero(ytrain[:,1]== i))

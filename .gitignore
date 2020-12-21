@@ -1,6 +1,7 @@
 *.h5
 *.csv
 *.fif
+data
 data/models
 __pycache__/
 .ipynb_checkpoints/

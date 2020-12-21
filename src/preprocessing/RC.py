@@ -6,13 +6,13 @@ import h5py
 from sklearn.decomposition import PCA
 
 
-pathtosave="../data/interim/"
+pathtosave="../../data/interim/"
 
 def read(mode='train'):
     #mode = 'test'
 
     # filename = "/media/raphael/Data/Dataaccess/ML_DREEM/X_"+str(mode)+"/X_"+str(mode)+".h5"
-    filename = "data/raw/X_"+str(mode)+"/X_"+str(mode)+".h5"
+    filename = "../../data/raw/X_"+str(mode)+".h5"
     eggs = []
     for i in range(1, 8):
         np_array = np.array(h5py.File(filename, mode='r')['eeg_'+str(i)])

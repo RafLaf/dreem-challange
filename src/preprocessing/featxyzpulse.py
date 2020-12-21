@@ -3,11 +3,11 @@ import h5py
 import matplotlib.pyplot as plt
 import scipy.stats as scs
 
-pathtosave="../data/interim/"
+pathtosave="../../data/interim/"
 
 def read(mode='train'):
     # filename = "/media/raphael/Data/Dataaccess/ML_DREEM/X_"+str(mode)+"/X_"+str(mode)+".h5"
-    filename = "data/raw/X_"+str(mode)+"/X_"+str(mode)+".h5"
+    filename = "../../data/raw/X_"+str(mode)+".h5"
     pulse = np.array(h5py.File(filename, mode='r')['pulse'])
     x = np.array(h5py.File(filename, mode='r')['x'])
     y = np.array(h5py.File(filename, mode='r')['y'])
@@ -57,7 +57,12 @@ def entropySignal(x,bins):
 
 
 if __name__ == "__main__":
-    eeg, mode = read(mode='train')
+    pulse, x, y, z, mode= read(mode='train')
+    extractall(save=True)
+    extractpulse(save=True)
+    extractentropy(save=True,bins=100)
+
+    pulse, x, y, z, mode= read(mode='test')
     extractall(save=True)
     extractpulse(save=True)
     extractentropy(save=True,bins=100)

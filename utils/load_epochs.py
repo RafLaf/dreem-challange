@@ -2,7 +2,7 @@ import gc
 import mne
 
 def load(reshape=True, normalize=True):
-    epochs = mne.read_epochs("../data/mne/X_train_epo.fif", proj=True)
+    epochs = mne.read_epochs("data/mne/X_train_epo.fif", proj=True)
 
     X = epochs.get_data()
     y = epochs.events[:, 2]
