@@ -6,18 +6,16 @@ from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 
-#start with Xtrain,Xtest=read('train') ,read('test')
-#then Xtrain,Xtest=scale(Xtrain,Xtest)
-#then pred = SVM(Xtrain,Xtest)
+#run auto()
 
-filename="/home/raphael/Documents/dreem-challange-main/data/interim/"
+filename="/home/raphael/Documents/ML/dreem-challange-main/data/interim/"
 
 
 
-def auto():
+def auto(save=True,RC=False):
     Xtrain,Xtest=read('train') ,read('test')
     Xtrain,Xtest=scale(Xtrain,Xtest)
-    pred = SVM(Xtrain,Xtest)
+    pred = SVM(Xtrain,Xtest,save=save)
     return pred
 
 def read(mode='train',RC=False):
@@ -30,16 +28,17 @@ def read(mode='train',RC=False):
     fmax=np.load(filename+'fmax'+str(mode)+'.npy',allow_pickle=True)
     fmax=np.reshape(fmax,(fmax.shape[0],fmax[0].size))
     PFD=np.load(filename+'PFD'+str(mode)+'.npy',allow_pickle=True)
+    breath=np.load(filename+'breath'+str(mode)+'.npy',allow_pickle=True)
     if RC==True:
         if mode=='train':
             RRtrain=np.load(filename+'bestfeatRtrain.npy',allow_pickle=True)
             print(pulse.shape,fmax.shape,entropy.shape,RRtrain.shape)
-            return np.concatenate((pulse,entropy,freq,entreegs,minmaxvarray,MMD,fmax,PFD,RRtrain),axis=1)
+            return np.concatenate((pulse,entropy,freq,entreegs,minmaxvarray,MMD,PFD,fmax,breath,RRtrain),axis=1)
         else:
             RRtest=np.load(filename+'bestfeatRest.npy',allow_pickle=True)
             print(pulse.shape,fmax.shape,entropy.shape,RRtest.shape)
-            return np.concatenate((pulse,entropy,freq,entreegs,minmaxvarray,MMD,PFD,fmax,RRtest),axis=1)
-    return np.concatenate((pulse,entropy,freq,entreegs,minmaxvarray,MMD,fmax,PFD),axis=1)
+            return np.concatenate((pulse,entropy,freq,entreegs,minmaxvarray,MMD,PFD,fmax,breath,RRtest),axis=1)
+    return np.concatenate((pulse,entropy,freq,entreegs,minmaxvarray,MMD,PFD,fmax,breath),axis=1)
 
 
 def scale(Xtrain,Xtest):

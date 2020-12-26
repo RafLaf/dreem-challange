@@ -7,7 +7,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.feature_selection import SelectKBest, chi2, f_classif, f_regression
 
-filename="/home/raphael/Documents/dreem-challange-main/data/interim/"
+filename="/home/raphael/Documents/ML/dreem-challange-main/data/interim/"
 
 
 def read(mode='train'):
@@ -35,7 +35,7 @@ def bestfeat(save=True, method=f_classif,k=20):
     if save==True:
         np.save(filename+'bestfeatRtrain.npy',Xtrain)
         np.save(filename+'bestfeatRest.npy',Xtest)
-    clf.sort()
+    clf.scores_.sort()
     return Xtrain,Xtest,clf.scores_
 
 
