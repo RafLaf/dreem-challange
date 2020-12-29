@@ -22,13 +22,13 @@ def readlabel():
     y=ytrain[:,1]
     return y
 
-def bestfeat(save=True, method=f_classif,k=20):
+def bestfeat(save=True, method=f_classif,k=50):
     #method = chi2 or f_classif or f_regression others available on the sckit learn website
     
     Rtrain=read(mode='train')
     Rtest=read(mode='test')
     y=readlabel()
-    clf=SelectKBest(method, k=20)
+    clf=SelectKBest(method, k=k)
     clf.fit(Rtrain, y)
     Xtrain=clf.transform(Rtrain)
     Xtest=clf.transform(Rtest)

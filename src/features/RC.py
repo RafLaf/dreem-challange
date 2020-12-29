@@ -13,12 +13,12 @@ from sklearn.decomposition import PCA
 #then extract the different features
 
 
-pathtosave="/home/raphael/Documents/dreem-challange-main/data/interim/"
+pathtosave="../../data/interim/"
 
 def read(mode='train'):
     #mode = 'test'
-    filename = "/media/raphael/Data/Dataaccess/ML_DREEM/X_"+str(mode)+"/X_"+str(mode)+".h5"
-    #filename = "data/raw/X_"+str(mode)+"/X_"+str(mode)+".h5"
+    # filename = "/media/raphael/Data/Dataaccess/ML_DREEM/X_"+str(mode)+"/X_"+str(mode)+".h5"
+    filename = "../../data/raw/X_"+str(mode)+".h5"
     eggs = []
     for i in range(1, 8):
         np_array = np.array(h5py.File(filename, mode='r')['eeg_'+str(i)])
@@ -34,6 +34,7 @@ def scale(eggs):
     return eggs
 
     
+# run this with nr = 500
 def extract(save=True,Nr=2000,start=0,end=None,step=10,rho=0.99,D=15,nbchan=7,aleak=0.07,gamma=1,biasscale=0.5,snap=4):
     Res=Reservoir(Nr,D,rho,nbchan)
     eggstrain,mode=read(mode='train')
@@ -105,3 +106,5 @@ class Reservoir:
         return np.array(Lmain)
 
 
+if __name__ == "__main__":
+    extract(Nr=500)
