@@ -6,11 +6,7 @@ from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 
-#run auto()
-
-filename="/home/raphael/Documents/ML/dreem-challange-main/data/interim/"
-
-
+filename="../../data/interim/"
 
 def auto(save=True,RC=False):
     Xtrain,Xtest=read('train') ,read('test')
@@ -55,16 +51,17 @@ def SVM(Xtrain,Xtest,C=20,save=True):
     SVM.fit(Xtrain,y)
     pred=SVM.predict(Xtest)
     if save==True:
-         pd.DataFrame(pred).to_csv("/media/raphael/Data/Dataaccess/ML_DREEM/predtest.csv")
+         pd.DataFrame(pred).to_csv("../../data/predicitons/submission.csv")
     return pred
 
 
 def readlabel():
-    filename = "/media/raphael/Data/Dataaccess/ML_DREEM/y_train.csv"
+    filename = "../../data/raw/y_train.csv"
     ytrain=np.array(pd.read_csv(filename))
     for i in range(5):
         print('occurence sleep stage',i,np.count_nonzero(ytrain[:,1]== i))
     y=ytrain[:,1]
     return y
 
-
+if __name__ == "__main__":
+    auto()

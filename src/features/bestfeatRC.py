@@ -7,7 +7,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.feature_selection import SelectKBest, chi2, f_classif, f_regression
 
-filename="/home/raphael/Documents/ML/dreem-challange-main/data/interim/"
+filename="../../data/interim/"
 
 
 def read(mode='train'):
@@ -15,7 +15,7 @@ def read(mode='train'):
     return R
 
 def readlabel():
-    filename = "/media/raphael/Data/Dataaccess/ML_DREEM/y_train.csv"
+    filename = "../../data/raw/y_train.csv"
     ytrain=np.array(pd.read_csv(filename))
     for i in range(5):
         print('occurence sleep stage',i,np.count_nonzero(ytrain[:,1]== i))
@@ -37,5 +37,8 @@ def bestfeat(save=True, method=f_classif,k=50):
         np.save(filename+'bestfeatRest.npy',Xtest)
     clf.scores_.sort()
     return Xtrain,Xtest,clf.scores_
+
+if __name__ == "__main__":
+    bestfeat()
 
 
