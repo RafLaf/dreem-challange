@@ -17,7 +17,7 @@ from sklearn.model_selection import KFold
 
 from load_features import *
 
-modelname = 'svm'
+modelname = 'forest'
 
 # Read args
 if len(sys.argv) > 1:
@@ -34,7 +34,7 @@ kf.get_n_splits(X)
 
 scores = []
 for train, test in kf.split(X):
-    model = model_module.gen_model()
+    model = model_module.gen_model(n_estimators=2000, min_samples_split=2, min_samples_leaf=2, max_features="auto", max_depth=60, criterion="gini", bootstrap=False)
     model.fit(X[train], y[train])
 
     pred = model.predict(X[test])
