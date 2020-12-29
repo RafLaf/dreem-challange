@@ -3,19 +3,15 @@ import h5py
 import matplotlib.pyplot as plt
 import scipy.stats as scs
 from scipy.signal import butter, lfilter, freqz
-#first change paths lines 12 and 16
 
 #first run pulse,x,y,z,mode=read(mode='train' or 'test')
-#then extract the different features
 
 
-pathtosave="/home/raphael/Documents/ML/dreem-challange-main/data/interim/"
+pathtosave="../../data/interim/"
 
 
 def read(mode='train'):
-    #mode = 'test'
-    filename = "/media/raphael/Data/Dataaccess/ML_DREEM/X_"+str(mode)+"/X_"+str(mode)+".h5"
-    #filename = "data/raw/X_"+str(mode)+"/X_"+str(mode)+".h5"
+    filename = "../../data/raw/X_"+str(mode)+".h5"
     pulse = np.array(h5py.File(filename, mode='r')['pulse'])
     x = np.array(h5py.File(filename, mode='r')['x'])
     y = np.array(h5py.File(filename, mode='r')['y'])
@@ -104,3 +100,10 @@ def butter_bandpass_filter(data, lowcut, highcut, fs, order=5):
     b, a = butter_bandpass(lowcut, highcut, fs, order=order)
     y = lfilter(b, a, data)
     return y
+
+if __name__ == "__main__":
+    pulse, x, y, z, mode = read(mode='train')
+    extractbreath()
+    pulse, x, y, z, mode = read(mode='test')
+    extractbreath()
+
