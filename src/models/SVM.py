@@ -9,7 +9,7 @@ from sklearn.preprocessing import StandardScaler
 filename="../../data/interim/"
 
 def auto(save=True,RC=False):
-    Xtrain,Xtest=read('train') ,read('test')
+    Xtrain,Xtest=read('train'),read('test')
     Xtrain,Xtest=scale(Xtrain,Xtest)
     pred = SVM(Xtrain,Xtest,save=save)
     return pred
@@ -51,7 +51,7 @@ def SVM(Xtrain,Xtest,C=20,save=True):
     SVM.fit(Xtrain,y)
     pred=SVM.predict(Xtest)
     if save==True:
-         pd.DataFrame(pred).to_csv("../../data/predicitons/submission.csv")
+         pd.DataFrame(pred).to_csv("../../data/predictions/submission.csv")
     return pred
 
 
@@ -64,4 +64,4 @@ def readlabel():
     return y
 
 if __name__ == "__main__":
-    auto()
+    auto(RC=True)
