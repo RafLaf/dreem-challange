@@ -32,7 +32,7 @@ xgb_random = RandomizedSearchCV(estimator = xgb, param_distributions = random_gr
 xgb_random.fit(X, y)
 
 print(xgb_random.best_params_)
-with open('../../data/models/xgb.yml', 'w') as outfile:
+with open('../params/xgb.yml', 'w') as outfile:
     yaml.dump(xgb_random.best_params, outfile, default_flow_style=False)
 
 results = pd.DataFrame(xgb_random.cv_results_)

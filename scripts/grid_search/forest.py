@@ -33,7 +33,7 @@ rf_random = RandomizedSearchCV(estimator = rf, param_distributions = random_grid
 rf_random.fit(X, y)
 
 print(rf_random.best_params_)
-with open('../../data/models/best_rf_params.yml', 'w') as outfile:
+with open('../params/forest.yml', 'w') as outfile:
     yaml.dump(rf_random.best_params, outfile, default_flow_style=False)
 
 pd.DataFrame.drop()
