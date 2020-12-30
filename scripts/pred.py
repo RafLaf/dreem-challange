@@ -1,17 +1,22 @@
 import sys
+import yaml
 import importlib
 import pandas as pd
 from load_features import *
 
-modelname = 'forest'
+modelname = 'xgb'
 
 # Read args
 if len(sys.argv) > 1:
     modelname = sys.argv[1]
 
-model_module = importlib.import_module("src.models." + modelname)
-model = model_module.gen_model(n_estimators=2000, min_samples_split=2, min_samples_leaf=2, max_features="auto", max_depth=60, criterion="gini", bootstrap=False)
+with open(f"params/{modelname}.yml") as f:
+    params = yaml.load(f, Loader=yaml.FullLoader)
 
+model_module = importlib.import_module("src.models." + modelname)
+model = model_module.gen_model(**params)
+
+    
 Xtrain,Xtest=read('train'),read('test')
 Xtrain,Xtest=scale(Xtrain,Xtest)
 y=readlabel()

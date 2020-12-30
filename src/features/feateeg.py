@@ -29,7 +29,7 @@ def extractfbandsfull(save=True,cuts=1):
     for i in range(7):
         L.append(extractfbands(eegs[i],cuts))
     L=np.array(L)
-    s=L.shapeex
+    s=L.shape
     L=L.reshape((s[0],s[1],s[2],s[3]))
     L=np.moveaxis(L,[3],[0])
     s=L.shape

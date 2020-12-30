@@ -10,31 +10,37 @@
 
 import sys
 import importlib
+import yaml
 import numpy as np
 
 from sklearn.metrics import f1_score
+from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import KFold
 
 from load_features import *
 
-modelname = 'forest'
+modelname = "xgb"
 
-# Read args
 if len(sys.argv) > 1:
     modelname = sys.argv[1]
 
 model_module = importlib.import_module("src.models." + modelname)
 
-X = read('train')
+with open(f"params/{modelname}.yml") as f:
+    params = yaml.load(f, Loader=yaml.FullLoader)
+    
+
+
+X = read('train', RC=True)
 X = scale(X)
-y=readlabel()
+y = readlabel()
 
 kf = KFold(n_splits=4)
 kf.get_n_splits(X)
 
 scores = []
 for train, test in kf.split(X):
-    model = model_module.gen_model(n_estimators=2000, min_samples_split=2, min_samples_leaf=2, max_features="auto", max_depth=60, criterion="gini", bootstrap=False)
+    model = model_module.gen_model(**params)
     model.fit(X[train], y[train])
 
     pred = model.predict(X[test])
@@ -43,6 +49,13 @@ for train, test in kf.split(X):
     print(f"Score: {round(np.mean(score), 4)}")
     scores.append(score)
 
+    print("Confusion Matrix:")
+    print(confusion_matrix(y[test], pred))
+
+    print("Classification Report")
+    print(classification_report(y[test], pred))
+
 print(f"Mean score: {round(np.mean(scores), 4)}")
 # SVM = .644
 # RF = .66
+# RF with params = .70

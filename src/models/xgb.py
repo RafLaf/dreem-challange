@@ -1,4 +1,4 @@
-from sklearn.ensemble import GradientBoostingClassifier
+from xgboost import XGBClassifier
 
 def gen_model(**kwargs):
-    return GradientBoostingClassifier(**kwargs)
+    return XGBClassifier(**kwargs)
