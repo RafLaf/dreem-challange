@@ -2,7 +2,7 @@ import yaml
 import pandas as pd
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.ensemble import RandomForestClassifier
-from load_features import *
+from utils.load_features import *
 
 n_estimators = [int(x) for x in np.linspace(start = 200, stop = 2000, num = 10)]
 max_features = ['auto', 'sqrt', 'log2']

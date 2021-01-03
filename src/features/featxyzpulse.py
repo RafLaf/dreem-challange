@@ -23,6 +23,7 @@ def extractall(save=True):
     a=extractpulse(save=save)[0]
     b=extractentropy(save=save)[0]
     c=extractbreath(save=save)[0]
+    d=extractagitation(save=save)[0]
     return a,b,c,mode
 
 def extractpulse(save=True):
@@ -72,6 +73,17 @@ def extractbreath(save=True):
     return count,mode
     
 
+def extractagitation(save=True):
+    agx=np.sum(abs(x),axis=1)
+    agy=np.sum(abs(y),axis=1)
+    agz=np.sum(abs(z),axis=1)
+    ag=np.array([agx,agy,agz]).T
+    print(ag.shape)
+    if save==True:
+         np.save(pathtosave+'agitation'+str(mode)+'.npy',ag)
+    return ag,mode
+
+
 
 #--------------------------------------------------------------------------------------------#
 
@@ -103,7 +115,7 @@ def butter_bandpass_filter(data, lowcut, highcut, fs, order=5):
 
 if __name__ == "__main__":
     pulse, x, y, z, mode = read(mode='train')
-    extractbreath()
+    extractagitation()
     pulse, x, y, z, mode = read(mode='test')
-    extractbreath()
+    extractagitation()
 

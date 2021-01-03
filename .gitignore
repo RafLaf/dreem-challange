@@ -1,8 +1,8 @@
 *.h5
-*.csv
 *.fif
-data
-data/models
+data/interim/R*
+data/mne
+data/raw
 __pycache__/
 notebooks
 .ipynb_checkpoints/

@@ -1,2 +1,6 @@
 use_label_encoder: False
 eval_metric: 'mlogloss'
+learning_rate: 0.02
+n_estimators: 600
+objective: 'multi:softprob'
+nthread: -1

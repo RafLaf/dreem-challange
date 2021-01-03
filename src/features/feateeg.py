@@ -2,6 +2,7 @@ import numpy as np
 import h5py
 import matplotlib.pyplot as plt
 import scipy.stats as scs
+from RC import scale
 
 pathtosave="../../data/interim/"
 
@@ -48,9 +49,8 @@ def extractentropeeg(save=True,bins=1000):
 
 
 
-def extractvar(save=True):
+def old_extractvar(save=True):
     varray=np.array([np.log(np.var(eegs[i],axis=1)) for i in range(7)])
-    varray=varray
     minmax=np.array([(np.max(eegs[i],axis=1)-np.min(eegs[i],axis=1)) for i in range(7)])
     minmaxvarray=np.array([minmax.T,varray.T])    
     minmaxvarray= np.moveaxis(minmaxvarray,[1],[0])
@@ -58,7 +58,19 @@ def extractvar(save=True):
     minmaxvarray=minmaxvarray.reshape((s[0],s[1]*s[2]))
     if save==True:
         np.save(pathtosave+'minmaxvarray'+str(mode)+'.npy',minmaxvarray)
+
     return minmaxvarray,mode
+
+
+def extractvar(save=True):
+    varray = np.log(np.var(eegs, axis=2))
+    minmax = np.max(eegs, axis=2) - np.min(eegs,axis=2)
+    minmax_norm = np.max(scale(eegs), axis=2) - np.min(scale(eegs),axis=2)
+    full_array = np.concatenate([varray, minmax, minmax_norm.T]).T
+    if save==True:
+        np.save(pathtosave+'minmaxvarray'+str(mode)+'.npy',full_array)
+
+    return full_array,mode
 
 
 
@@ -71,7 +83,7 @@ def extractMMD(save=True):
 
 
 def extractfreqmax(save=True,cuts=1):
-    fmax=np.array([extractfmax(eegs[i],cuts) for i in range(7)]).T
+    fmax=np.squeeze(np.array([extractfmax(eegs[i],cuts) for i in range(7)]).T)
     if save==True:
         np.save(pathtosave+'fmax'+str(mode)+'.npy',fmax)
     return fmax,mode
@@ -180,7 +192,7 @@ def extractfmax(eeg,cuts):
 
 if __name__ == "__main__":
     eegs, mode = read("train")
-    extractall()
+    extractvar()
     eegs, mode = read("test")
-    extractall()
+    extractvar()
 

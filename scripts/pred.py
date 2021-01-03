@@ -2,7 +2,7 @@ import sys
 import yaml
 import importlib
 import pandas as pd
-from load_features import *
+from utils.load_features import *
 
 modelname = 'xgb'
 
@@ -17,9 +17,11 @@ model_module = importlib.import_module("src.models." + modelname)
 model = model_module.gen_model(**params)
 
     
-Xtrain,Xtest=read('train'),read('test')
-Xtrain,Xtest=scale(Xtrain,Xtest)
+Xtrain, idx = read('train', RC=True, rm_outliers=True)
+Xtest = read('test', RC=True)
+Xtrain, Xtest = scale(Xtrain, Xtest)
 y=readlabel()
+y = y[idx]
 
 model.fit(Xtrain,y)
 pred=model.predict(Xtest)

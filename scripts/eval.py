@@ -2,10 +2,10 @@
 # Usage: 
 1. Your PYTHONPATH has to be set to PYTHONPATH:pathtodreemdirectory
 2. Go from the terminal in the directory of this file
-3. Execute python eval.py `modelname` `datatype`
+3. Execute python eval.py `modelname` 
 
 # Example:
-`python eval.py logreg epochs`
+`python eval.py logreg`
 """
 
 import sys
@@ -17,7 +17,7 @@ from sklearn.metrics import f1_score
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import KFold
 
-from load_features import *
+from utils.load_features import *
 
 modelname = "xgb"
 
@@ -51,6 +51,7 @@ for train, test in kf.split(X):
 
     print("Confusion Matrix:")
     print(confusion_matrix(y[test], pred))
+    break
 
     print("Classification Report")
     print(classification_report(y[test], pred))
@@ -59,3 +60,4 @@ print(f"Mean score: {round(np.mean(scores), 4)}")
 # SVM = .644
 # RF = .66
 # RF with params = .70
+

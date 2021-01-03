@@ -6,6 +6,7 @@ from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.feature_selection import SelectKBest, chi2, f_classif, f_regression
+from sklearn.decomposition import PCA
 
 filename="../../data/interim/"
 
@@ -28,17 +29,22 @@ def bestfeat(save=True, method=f_classif,k=50):
     Rtrain=read(mode='train')
     Rtest=read(mode='test')
     y=readlabel()
-    clf=SelectKBest(method, k=k)
+
+    if method==PCA:
+        clf = PCA(n_components=k) 
+    else:
+        clf=SelectKBest(method, k=k)
+
     clf.fit(Rtrain, y)
     Xtrain=clf.transform(Rtrain)
     Xtest=clf.transform(Rtest)
     if save==True:
         np.save(filename+'bestfeatRtrain.npy',Xtrain)
-        np.save(filename+'bestfeatRest.npy',Xtest)
-    clf.scores_.sort()
-    return Xtrain,Xtest,clf.scores_
+        np.save(filename+'bestfeatRtest.npy',Xtest)
+    # clf.scores_.sort()
+    # return Xtrain,Xtest,clf.scores_
 
 if __name__ == "__main__":
-    bestfeat()
+    bestfeat(save=True, method=PCA, k=5)
 
 
